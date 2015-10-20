@@ -1,10 +1,11 @@
 
-package grafosUO237060;
+
+
 
 import java.text.DecimalFormat;
 
 /**
- * @author Pablo Amoín Triana
+ * @author pasadores
  * 
  */
 public class Graph<T> {
@@ -163,10 +164,17 @@ public class Graph<T> {
 		}
 	}
 
+	/**
+	 * 
+	 * @return Retorna la matriz "edges".
+	 */
 	public boolean[][] getEdges() {
 		return edges;
 	}
-
+	/**
+	 * 
+	 * @return Retorna la matriz "weights".
+	 */
 	public double[][] getWeights() {
 		return weights;
 	}
@@ -215,13 +223,15 @@ public class Graph<T> {
 	}
 
 
-	
+	/**
+	 * Aplica el algoritmo de dijkstra al grafo dado
+	 * @param nodoOrigen Dado del cual va a partir el algoritmo.
+	 * @return	Retorna un vector que contiene las distancias minimas aplicando el algoritmo
+	 */
 	public double[] dijkstra(T nodoOrigen) 
     {
     	if(nodoOrigen == null || getNode(nodoOrigen)== -1) return null;
-    	
-    	
-    	
+    	   	
     	double[] d = new double[nodes.length];
     	int[] p = new int[nodes.length];
     	boolean[] s= new boolean[nodes.length];
@@ -232,7 +242,6 @@ public class Graph<T> {
 			if(i==0)
 			{
 				d[i]= 0;
-
 			}
 			else{
 				if (edges[getNode(nodoOrigen)][i] && i!= 0)
@@ -242,40 +251,23 @@ public class Graph<T> {
 			
 				else {
 					d[i] =Double.POSITIVE_INFINITY;
-					p[i] = -1;
-
-					
+					p[i] = -1;				
 				}
-				
-
-			}   
-		} 	
-    	
-      
-    	
+			}  
+		}   	
     	for(int w= minCost(d,s); w != -1; w = minCost(d,s)){
-    	
-    		
-    		s[w] = true;   		
-    		
-    		
+    		s[w] = true;   	   		
     		for (int i = 1 ; i < nodes.length;i++)
     		{
-    			if (edges[w][i]){
-    				
+    			if (edges[w][i]){   				
     				double pesoOld = d[i];
-    				double pesoNew = d[w] + weights[w][i] ;
-    				
+    				double pesoNew = d[w] + weights[w][i] ;    				
     				if (pesoOld > pesoNew ){
     					d[i] = pesoNew;
     					p[i] = w;    					
     				}
-    			}
-    			
-    		}   		
-    		
-    		
-
+    			}   			
+    		} 
     	}  	
     	return d;   
     }
@@ -362,11 +354,18 @@ public class Graph<T> {
     		
     	}
 
+    
+    /**
+     * Metodo auxiliar para modificar la matriz pFloyd
+     * @param P matriz p generada por floyd
+     */
 	private void setP(int[][] P) {
-		this.pFloyd = P;
-		
+		this.pFloyd = P;	
 	}
-
+	/**
+	 * Metodo auxiliar para modificar la matrix aFloyd
+	 * @param A matriz a generada por floyd
+	 */
 	private void setA(double[][] A) {
 		this.aFloyd = A;
 		
@@ -429,7 +428,12 @@ public class Graph<T> {
     }
 
     	
-    
+    /**
+     * Calcula si existe o no el camino entro los nodos i y j
+     * @param i Nodo origen 
+     * @param j Nodo destino
+     * @return true si hay camino, false si no lo hay.
+     */
     private boolean existeCamino(int i, int j) {
 		int k = pFloyd[i][j];
 		
@@ -448,7 +452,12 @@ public class Graph<T> {
     	}
     	return true;
 	}
-
+    /**
+     * Calcula el camino entre dos nodos
+     * @param i Nodo origen
+     * @param j Nodo destino
+     * @return	Camino entre los dos nodos
+     */
 	private double printPath(int i, int j){
     	int k = pFloyd[i][j];
     	double res = -1.0;
@@ -468,11 +477,11 @@ public class Graph<T> {
     }
     
     
-    private void calculaCoste(int i, int k) {
-		System.out.print("(" + aFloyd[i][k]+ ")"+ "\t");
-		
-	}
-
+    
+	/**
+	 * Devuelve el nodo por consola
+	 * @param k nodo a tratar
+	 */
 	private void tratarNodo(int k) {
         System.out.print(nodes[k].toString()+"\t"); 
     }
@@ -511,10 +520,3 @@ public class Graph<T> {
 	}
 
 }
-
-
-
-	
-    
-
-    
